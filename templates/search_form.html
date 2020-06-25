@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>菜鸟教程（runoob.com)</title>
+</head>
+<body>
+ <form action="/search" method="get">
+        <input type="text" name="q">
+        <input type="submit" value="搜索">
+    </form>
+ <p>{{ rlt1 | default:"Get提交的内容"}}</p>
+
+ <form action="/search-post/" method="post">
+        {% csrf_token %}
+        <input type="text" name="q">
+        <input type="submit" value="Submit">
+    </form>
+
+ <p>{{ rlt2|default:"Post提交的内容" }}</p>
+
+
+</body>
+</html>
