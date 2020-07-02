@@ -33,7 +33,7 @@ def cal_risk_from_name(name, city):
     # visitors.dropna()
     # visitors.columns = ['count']
     # visitors.to_csv('TecentData.csv', mode='a', index=False)
-    print(visitors)
+    # print(visitors)
     if (area != 0):
         fragility = population * (gdp / 10000) / area #易感人群脆弱性
     if (total != 0):
@@ -42,16 +42,16 @@ def cal_risk_from_name(name, city):
     risk = (fragility / validity) * visitors / (avg_speed)
     if (risk<= 5):
         return 0
-    else if (risk > 5 and risk <= 10):
+    elif (risk > 5 and risk <= 10):
         return 1
     else:
-    return 2   #0 1 2分别表示低，中，搞风险
+        return 2       #0 1 2分别表示低，中，搞风险
     # print(risk)
     # risk = #还要改
     # return risk    #还要改
 
 # while(1):
 #     # visitors = get_visitors(lon, lat, 0)
-risk = cal_risk_from_name('清华大学', '北京')
+risk = cal_risk_from_name('中国科学院大学', '北京')
 # print(risk)
 

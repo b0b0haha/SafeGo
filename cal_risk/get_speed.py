@@ -4,7 +4,7 @@ from numpy import array, mean
 def get_speed(lon, lat, key):
     res = requests.get('https://restapi.amap.com/v3/traffic/status/circle?location=' + lon + ',' + lat  +'&radius=1000&key=' + key + '&extensions=all',verify=False)
     res_json = json.loads(res.text)
-    print(res_json)
+    # print(res_json)
     if(len(res_json['trafficinfo']['roads']) == 0):
         return 60#没有数据默认和交通畅通一样处理
     if res_json['trafficinfo']['evaluation']['status'] == 0 or res_json['trafficinfo']['evaluation']['status'] == 1:
