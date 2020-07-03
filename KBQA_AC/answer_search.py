@@ -13,7 +13,7 @@ class AnswerSearcher:
             host="127.0.0.1",
             http_port=7474,
             user="neo4j",
-            password="neo4j")
+            password="mima1234")
         self.num_limit = 20
 
     '''执行cypher查询，并返回相应结果'''
@@ -35,45 +35,48 @@ class AnswerSearcher:
     '''根据对应的qustion_type，调用相应的回复模板'''
 
     def answer_prettify(self, question_type, answers):
-        final_answer = []
+        final_answer = ""
         if not answers:
             return ''
         if question_type == 'address':
-            desc = [i['m.address'] for i in answers]
-            subject = answers[0]['m.name']
-
-            final_answer = '{0}的地址是：{1}'.format(
-                subject, ';'.join(list(set(desc))[:self.num_limit]))
+            for i in answers:
+                desc = i['m.address']
+                subject = i['m.name']
+                final_answer = final_answer + '{0}的地址是：{1}\n'.format(
+                    subject, desc)
 
         elif question_type == 'tel':
             desc = []
-            desc = [i['m.tel'] for i in answers]
-            # print(desc)
-            # print(list(set(desc)))
-            subject = answers[0]['m.name']
-            if '[]' in desc:
-                final_answer = '{0}的电话暂未收录'.format(subject)
-            else:
-                final_answer = '{0}的电话是：{1}'.format(
-                    subject, ';'.join(list(set(desc))[:self.num_limit]))
+
+            for i in answers:
+                desc = i['m.tel']
+                subject = i['m.name']
+                if '[]' in desc:
+                    final_answer = final_answer + \
+                        '{0}的电话暂未收录\n'.format(subject)
+                else:
+                    final_answer = final_answer + '{0}的电话是：{1}\n'.format(
+                        subject, desc)
 
         elif question_type == 'measures':
-            desc = [i['p.name'] for i in answers]
-            subject = answers[0]['n.name']
-            final_answer = '{0}的防控建议是：\t{1}'.format(
-                subject, ';'.join(list(set(desc))[:self.num_limit]))
+            for i in answers:
+                desc = i['p.name']
+                subject = i['n.name']
+                final_answer = final_answer + '{0}的防控建议是：\n{1}\n'.format(
+                    subject, desc)
         elif question_type == 'places_info':
             desct = []
-            desca = [i['n.address'] for i in answers]
-            desct = [i['n.tel'] for i in answers]
-            descm = [i['p.name'] for i in answers]
-            subject = answers[0]['n.name']
-            if '[]' in desct:
-                final_answer = '{0}的地址是：{1}, \n防控建议是：{2}'.format(
-                    subject, ';'.join(list(set(desca))[:self.num_limit]), ';'.join(list(set(descm))[:self.num_limit]))
-            else:
-                final_answer = '{0}的地址是：{1}, \n联系电话是：{2}, \n防控建议是：{3}'.format(
-                    subject, ';'.join(list(set(desca))[:self.num_limit]), ';'.join(list(set(desct))[:self.num_limit]), ';'.join(list(set(descm))[:self.num_limit]))
+            for i in answers:
+                desca = i['n.address']
+                desct = i['n.tel']
+                descm = i['p.name']
+                subject = i['n.name']
+                if '[]' in desct:
+                    final_answer = final_answer + '{0}的地址是：{1}, \n防控建议是：\n{2}\n'.format(
+                        subject, desca, descm)
+                else:
+                    final_answer = final_answer + '{0}的地址是：{1}, \n联系电话是：{2}, \n防控建议是：{3}\n'.format(
+                        subject, desca, desct, descm)
 
         return final_answer
 

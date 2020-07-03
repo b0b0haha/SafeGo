@@ -4,9 +4,9 @@
 # Author: lhy<lhy_in_blcu@126.com,https://huangyong.github.io>
 # Date: 18-10-4
 
-from question_classifier import *
-from question_parser import *
-from answer_search import *
+from KBQA_AC.question_classifier import *
+from KBQA_AC.question_parser import *
+from KBQA_AC.answer_search import *
 
 '''问答类'''
 
@@ -18,12 +18,17 @@ class ChatBotGraph:
         self.parser = QuestionPaser()
         self.searcher = AnswerSearcher()
 
-    def chat_main(self, sent, risk):
+    def chat_main(self, sent):
         answer = '您好，我是SafeGo，希望可以帮到您。如果没答上来，可联系https://github.com/Estherbdf/SafeGo。'
         res_classify = self.classifier.classify(sent)
-        # risk = 0
         if not res_classify:
             return answer
+        args = res_classify['args']
+        entity_dict = self.parser.build_entitydict(args)
+        entities = entity_dict.get('places')
+        # 计算risk
+        print(entities)
+        risk = 0
         res_sql = self.parser.parser_main(res_classify, risk)
         final_answers = self.searcher.search_main(res_sql)
         if not final_answers:
@@ -36,6 +41,7 @@ if __name__ == '__main__':
     handler = ChatBotGraph()
     while 1:
         question = input('用户:')
-        risk = 0
-        answer = handler.chat_main(question, risk)
+        # 获取risk
+        # risk = 0
+        answer = handler.chat_main(question)
         print('小易:', answer)

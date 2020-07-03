@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'safego.apps.SafegoConfig',
     'app1.apps.App1Config',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

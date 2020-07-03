@@ -18,10 +18,10 @@ class QuestionClassifier:
         cur_dir = '/'.join(os.path.abspath(__file__).split('/')[:-1])
         #　特征词路径
         # 节点字典
-        self.places_path = os.path.join(cur_dir, 'dict/places.txt')
-        self.areas_path = os.path.join(cur_dir, 'dict/areas.txt')
-        self.types_path = os.path.join(cur_dir, 'dict/types.txt')
-        self.measures_path = os.path.join(cur_dir, 'dict/measures.txt')
+        self.places_path = os.path.join(cur_dir, 'KBQA_AC/dict/places.txt')
+        self.areas_path = os.path.join(cur_dir, 'KBQA_AC/dict/areas.txt')
+        self.types_path = os.path.join(cur_dir, 'KBQA_AC/dict/types.txt')
+        self.measures_path = os.path.join(cur_dir, 'KBQA_AC/dict/measures.txt')
 
         # 否定词字典
         # self.deny_path = os.path.join(cur_dir, 'dict/deny.txt')

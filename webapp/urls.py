@@ -26,9 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls), # 用于配置超级用户
     path('',views.runoob),
     path('testdb/',testdb.deletedb), #这里接的应该是view.func,执行某次转发请求
-    path('search-form/',search.search_form),
-    path('search/',search.search),
-    path('search-post/',search.search_post),
+    path('safego/', include("safego.urls")),
     re_path("^index/([0-9]{4})/$",views.index),
     path('app1/',include("app1.urls")), # 每个app管理自己的url,需要在每个app的目录下自己新建一个urls.py文件
 

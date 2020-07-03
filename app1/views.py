@@ -16,6 +16,9 @@ def index(request,m): # 对应到url中
 def login1(request):
     return render(request,'login.html')
 
+def answer(request):
+    return render(request, 'QA.html')
+
 def login(request,args):
     if request.method=="GET":
         return render(request,'login.html')
