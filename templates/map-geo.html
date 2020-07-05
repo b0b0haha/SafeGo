@@ -484,7 +484,9 @@
 
 
     </script>
+
     <div id="myPageTop" style="">
+
         <table>
             <tr>
                 <td colspan="2">
@@ -493,6 +495,7 @@
                     </label>
                 </td>
             </tr>
+             <form class="bs-example bs-example-form" action="{% url 'search_all' %}"  method="post" role="form">
             <tr>
                 <td>
                     <label>
@@ -500,13 +503,22 @@
                     </label>
                 </td>
             </tr>
+
             <tr>
                 <td>
 
-                    <input type="text" placeholder="" id="siteName" style="width:375px;">
+                    <input type="text" placeholder="" id="siteName" name="address" style="width:375px;"value="{{ address| default:'北京大学' }}">
                 </td>
 
             </tr>
+                 <tr>
+                <td colspan="2" align="center">
+                     <button style="float:right" type="submit" class="button">查询</button>
+
+                </td>
+
+                 </tr>
+                  </form>
             <tr style="display: none">
                 <td>
                     <div id="iCenter">
@@ -524,7 +536,7 @@
                     </div>
                 </td>
             </tr>
-
+              <form class="bs-example bs-example-form" action="{% url 'search_all' %}"  method="post" role="form">
             <tr>
                 <td colspan="2">
                     <label>
@@ -548,19 +560,56 @@
             <tr>
 
                 <td colspan="2">
-                    <input type="text" placeholder="详细地址" readonly="true" id="tipinput" style="width:375px;">
+                    <input type="text" placeholder="详细地址" readonly="true" id="tipinput" name="detail-address" style="width:375px;">
                 </td>
             </tr>
             <tr></tr>
             <tr>
                 <td colspan="2" align="center">
-                    <input type="button" class="button" style="width: 180px; height: 30px;" value="查询"
-                           onclick="AddMarkerBtn();" />
-                    <input type="button" class="button" style="width: 180px; height: 30px;" value="关闭窗体"
-                           onclick="ColseaddMarkerWindow();" />
+                     <button style="float:right" type="submit" class="button">查询</button>
+
+                </td>
+            </tr>
+              </form>
+
+             <tr style="display: {{ show }}">
+
+                  <td colspan="2">
+                    <label>
+                        风险指数：{{ risk }}
+                    </label>
+                </td>
+
+
+             </tr>
+             <tr style="display: {{ show }}">
+
+                  <td >
+                    <label>
+                        出行建议：
+                    </label>
+                </td>
+
+
+
+             </tr>
+             <tr style="display: {{ show }}">
+
+                  <td>
+                   <textarea class="form-control form-control-static" rows="5" style="margin-top: 25px;" readonly>{{ answer |default:'请先选择地址后再进行查询！' }}</textarea>
+                </td>
+
+
+
+             </tr>
+            <tr>
+                <td colspan="2" align="center">
+                     <button style="float:right" type="submit" class="button"  onclick="ColseaddMarkerWindow();">关闭窗口</button>
+
                 </td>
             </tr>
         </table>
     </div>
+
 </body>
 </html>

@@ -40,11 +40,35 @@ def search_advise(request):
         question=request.POST['q']
         print(question)
         answer=''
-        #answer = handler.chat_main(question)
+        answer = handler.chat_main(question)
         ctx['answer']=answer
         ctx['question']=question
     return render(request,"search_form.html",ctx)
 
+def search_all(request):
+    global ctx
+    if request.POST:
+        address = request.POST.get('address')
+        detail_address=request.POST.get('detail_address')
+        # TODO 对于地图上选址的点获得的详细的地址没有进行特殊的处理(detail_address)-需要加入正则表达式来拆解
+        # TODO 对于用户输入的地址可以自动识别城市(address)
+        # TODO 需要限制地图显示的范围
+        ctx['address']=address
+        ctx['detail_address'] = detail_address
+
+        city='北京'
+        risk = cal_risk_from_name(address, city)
+        answer = handler.chat_main(address)
+        ctx['answer']=answer
+        strrisk = ''
+        if (risk == 0):
+            strrisk = '低风险'
+        elif (risk == 1):
+            strrisk = '中风险'
+        else:
+            strrisk = '高风险'
+        ctx['risk'] = strrisk
+    return render(request,"map-geo.html",ctx)
 
 def search_risk(request):
     global ctx
