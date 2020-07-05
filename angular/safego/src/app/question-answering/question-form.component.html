@@ -1,0 +1,10 @@
+<div class='container'>
+    <form *ngIf="active" (ngSubmit)="onSubmit()" #questionForm="ngForm">
+        {{diagnostic}}
+        <div class="form-group">
+            <label for="question">问题</label>
+            <input type="text" class="form-control" id="question" required [(ngModel)]="model.question" name="question">
+        </div>
+        <button type="button" class="btn btn-success" (click)="onQuestionSubmit(questionForm)">获取出行意见</button>
+    </form>
+</div>
