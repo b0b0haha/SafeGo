@@ -1,4 +1,3 @@
-
 import requests
 import json
 import time
@@ -22,6 +21,8 @@ def get_location(address, city, key):
             continue
     res_json = json.loads(res.text)
     print(res_json)
+    if (len(res_json['geocodes']) == 0):
+        return '0', '0'  # 说明查不到
     location = res_json['geocodes'][0]['location']
     lon = location[0:10]
     lat = location[-9:]

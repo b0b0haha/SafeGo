@@ -17,3 +17,5 @@ def get_gdp(district):
     if (district in GDP_key):
         GDP = float(GDP_key[district])
         return GDP
+    else:
+        return 0
