@@ -2,24 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>菜鸟教程（runoob.com)</title>
+    <title>SafeGo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
+<style>
+    body {
+        background-color:#EAEAEA;
+
+    }
+</style>
+
 <body>
+<div class="jumbotron text-center" style="margin-bottom:0">
+    <h1>安心出行</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <form class="bs-example bs-example-form" action="{% url 'search_risk' %}"  method="post" role="form">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">地名:</span>
+                        <input type="text" class="form-control" id="address" name="address" value="{{ address | default:'天安门广场' }}">
+                    </div>                    
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">城市:</span>
+                        <input type="text" class="form-control" id="city" name="city" value="{{ city | default:'北京' }}">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">查询危险指数</button>   
+            </form>
+            
+            <textarea class="form-control form-control-static" style="margin-top: 25px;" readonly>{{ risk |default:'' }}</textarea>
+        </div>
+        <div class="col-sm-6">
+            <form action="{% url 'search_advise' %}"  method="post" role="form" class="form-horizontal">
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">问题:</span>
+                        <input type="text" class="form-control" id="q" name="q" value="{{ question | default:'' }}">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">查询防控措施</button>
+            </form>
+            <textarea class="form-control form-control-static"  style="margin-top: 25px;" readonly>{{ answer |default:'' }}</textarea>
+                
+        </div>
 
- <form action="{% url 'search_advise' %}"  method="post">
-        <input type="text" name="q" value={{ question | default:'' }}>
-        <input type="submit" value="搜索">
-    </form>
-
- <p>{{ answer |default:"防控建议" }}</p>
-
-<form action="{% url 'search_risk' %}"  method="post">
-        <p>地名：<input type="text" name="address" value={{ address | default:'' }}></p>
-        <p>城市：<input type="text" name="city" value="{{ city | default:'' }}"></p>
-        <input type="submit" value="查询">
-    </form>
-
- <p>{{ risk |default:"风险指数" }}</p>
+    </div>
+</div>
 
 </body>
 </html>
