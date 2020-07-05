@@ -10,7 +10,7 @@ from KBQA_AC.chatbot import ChatBotGraph
 # redirect(页面）一般用于form表单提交，跳转到新的页面
 
 ctx={}
-#handler = ChatBotGraph()
+handler = ChatBotGraph()
 #update_cases()
 # 表单
 def search_form(request):
