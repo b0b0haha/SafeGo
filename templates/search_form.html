@@ -9,8 +9,17 @@
 <style>
     body {
         background-color:#EAEAEA;
-
+        min-height: 100%;
     }
+    #footer {
+            text-align: center;
+            height: 40px;
+            background: #e5e5e5e5;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+        }
+
 </style>
 
 <body>
@@ -51,9 +60,11 @@
             <textarea class="form-control form-control-static"  style="margin-top: 25px;" readonly>{{ answer |default:'' }}</textarea>
                 
         </div>
-
     </div>
 </div>
+<footer id='footer' class="container-fluid foot-wrap">
+            <p>2020 Google Girl Hackathon 珍珠奶茶大杯全糖队参赛作品</p>    
+</footer>
 
 </body>
 </html>
