@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'safego.apps.SafegoConfig',
-    'app1.apps.App1Config',
     'rest_framework',
     'corsheaders',
 ]
