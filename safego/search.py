@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.decorators import csrf #在处理post请求的时候一定要加上
+#from django.views.decorators import csrf #在处理post请求的时候一定要加上
 from cal_risk.cal_risk import *
 from KBQA_AC.chatbot import ChatBotGraph
 # 响应对象主要有三种形式：HttpResponse(),render(),redirect()

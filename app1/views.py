@@ -1,5 +1,5 @@
 from django.shortcuts import render ,redirect #可以重定向页面，将请求的页面返回
-from django.views.decorators import csrf #在处理post请求的时候一定要加上
+#from django.views.decorators import csrf #在处理post请求的时候一定要加上
 # Create your views here.
 from django.http import HttpResponse # 直接返回数据的方式
 from django.urls import reverse

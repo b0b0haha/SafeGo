@@ -7,7 +7,6 @@
 <body>
 
  <form action="{% url 'search_advise' %}"  method="post">
-        {% csrf_token %}
         <input type="text" name="q" value={{ question | default:'' }}>
         <input type="submit" value="搜索">
     </form>
@@ -15,7 +14,6 @@
  <p>{{ answer |default:"防控建议" }}</p>
 
 <form action="{% url 'search_risk' %}"  method="post">
-        {% csrf_token %}
         <p>地名：<input type="text" name="address" value={{ address | default:'' }}></p>
         <p>城市：<input type="text" name="city" value="{{ city | default:'' }}"></p>
         <input type="submit" value="查询">
