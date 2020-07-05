@@ -1,0 +1,566 @@
+<!doctype html>
+<html>
+<head>
+    <meta content="" charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width" />
+    <title>地图寻址</title>
+    <!-- 地图的css及js，不可缺少-->
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css" />
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main.css?v=1.0" />
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/es5.min.js"></script>
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=f034871b532a7bfb2d93f18e915b322c&plugin=AMap.DistrictSearch"></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 弹出信息框样式-->
+    <style type="text/css">
+        .info-title {
+            color: white;
+            font-size: 14px;
+            background-color: blue;
+            line-height: 26px;
+            padding: 0px 0 0 6px;
+            font-weight: lighter;
+            letter-spacing: 1px;
+        }
+
+        .info-content {
+            font: 12px Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial;
+            padding: 4px;
+            color: #666666;
+            line-height: 23px;
+        }
+
+            .info-content img {
+                float: left;
+                margin: 3px;
+            }
+
+        #tip {
+            background-color: #fff;
+            padding: 0 10px;
+            border: 1px solid silver;
+            box-shadow: 3px 4px 3px 0px silver;
+            position: absolute;
+            font-size: 12px;
+            right: 10px;
+            top: 5px;
+            border-radius: 3px;
+            line-height: 36px;
+        }
+    </style>
+</head>
+<body onload="mapInit()">
+    <div id="container">
+    </div>
+    <div class="button-group" style="*position:absolute;top:90%;left:20%;text-align:center;">
+
+        <input type="button" class="btn btn-primary" value="查询" onclick="addMarker();" />
+        <!--<input type="button" class="button" value="更新站点" id="updateMarker()" />-->
+        <input type="button" class="btn btn-primary" value="返回" onclick="javascript:history.back(-1);" />
+    </div>
+    <!--var MM = new csMenu(document.getElementById("container"), document.getElementById("Menu1"));
+    <div id="Menu1" style="background-color:White; border:1px solid #cccccc; padding:10px;">
+        <li>打开</li>
+        <li>打印</li>
+        <li>回复发件人</li>
+        <li>全部回复</li>
+        <li>转发</li>
+        <li>分配</li>
+        <li>垃圾邮件</li>
+        <li>删除</li>
+        <li>归档此邮件</li>
+        <li>分拣此邮件</li>
+    </div>
+    /////////////////////////////////////////////////////-->
+    <script type="text/javascript">
+        function csMenu(_object, _menu) {
+            this.IEventHander = null;
+            this.IFrameHander = null;
+            this.IContextMenuHander = null;
+
+            this.Show = function (_menu) {
+                var e = window.event || event;
+                if (e.button == 2) {
+                    if (window.document.all) {
+                        this.IContextMenuHander = function () { return false; };
+                        document.attachEvent("oncontextmenu", this.IContextMenuHander);
+                    }
+                    else {
+                        this.IContextMenuHander = document.oncontextmenu;
+                        document.oncontextmenu = function () { return false; };
+                    }
+
+                    window.csMenu$Object = this;
+                    this.IEventHander = function () { window.csMenu$Object.Hide(_menu); };
+
+                    if (window.document.all)
+                        document.attachEvent("onmousedown", this.IEventHander);
+                    else
+                        document.addEventListener("mousedown", this.IEventHander, false);
+
+                    _menu.style.left = e.clientX;
+                    _menu.style.top = e.clientY;
+                    _menu.style.display = "";
+
+                    if (this.IFrameHander) {
+                        var _iframe = document.getElementById(this.IFrameHander);
+                        _iframe.style.left = e.clientX;
+                        _iframe.style.top = e.clientY;
+                        _iframe.style.height = _menu.offsetHeight;
+                        _iframe.style.width = _menu.offsetWidth;
+                        _iframe.style.display = "";
+                    }
+                }
+            };
+
+            this.Hide = function (_menu) {
+                var e = window.event || event;
+                var _element = e.srcElement;
+                do {
+                    if (_element == _menu) {
+                        return false;
+                    }
+                }
+                while ((_element = _element.offsetParent));
+
+                if (window.document.all)
+                    document.detachEvent("on" + e.type, this.IEventHander);
+                else
+                    document.removeEventListener(e.type, this.IEventHander, false);
+
+                if (this.IFrameHander) {
+                    var _iframe = document.getElementById(this.IFrameHander);
+                    _iframe.style.display = "none";
+                }
+
+                _menu.style.display = "none";
+
+                if (window.document.all)
+                    document.detachEvent("oncontextmenu", this.IContextMenuHander);
+                else
+                    document.oncontextmenu = this.IContextMenuHander;
+            };
+
+            this.initialize = function (_object, _menu) {
+                window._csMenu$Object = this;
+                var _eventHander = function () { window._csMenu$Object.Show(_menu); };
+
+                _menu.style.position = "absolute";
+                _menu.style.display = "none";
+                _menu.style.zIndex = "1000000";
+
+                if (window.document.all) {
+                    var _iframe = document.createElement('iframe');
+                    document.body.insertBefore(_iframe, document.body.firstChild);
+                    _iframe.id = _menu.id + "_iframe";
+                    this.IFrameHander = _iframe.id;
+
+                    _iframe.style.position = "absolute";
+                    _iframe.style.display = "none";
+                    _iframe.style.zIndex = "999999";
+                    _iframe.style.border = "0px";
+                    _iframe.style.height = "0px";
+                    _iframe.style.width = "0px";
+
+                    _object.attachEvent("onmouseup", _eventHander);
+                }
+                else {
+                    _object.addEventListener("mouseup", _eventHander, false);
+                }
+            };
+
+            this.initialize(_object, _menu);
+        }
+        /////////////////////////////////////////////////
+    </script>
+
+    <script type="text/javascript">
+
+
+
+        //添加站点
+        function addMarker() {
+            //获取经纬度
+            var lnglat = getlnglat();
+            //document.getElementById("myPageTop").style.display = "none"; //隐藏
+            document.getElementById("myPageTop").style.display = ""; //显示
+
+        }
+        //添加Marker
+        function AddMarkerBtn() {
+            //获取经纬度
+            var lnglat = document.getElementById("lnglat").value;
+            //获取站点名
+            var siteName = document.getElementById("siteName").value;
+            //获取站点负责人
+            var WorkerName = document.getElementById("WorkerName").value;
+            //获取详细地址
+            var DeiliteAddress = document.getElementById("tipinput").value;
+            //定义经度
+            var lng = "";
+            //定义纬度
+            var lat = "";
+            //给经度赋值 从0开始到，结束
+            lng = lnglat.substr(0, lnglat.indexOf(","));
+            //给纬度赋值   从，后一位开始到数组的总长结束
+            lat = lnglat.substr(lnglat.indexOf(",") + 1, lnglat.length - 1);
+
+            if (lnglat == "" || lnglat == null) {
+                alert("请单击地图获取坐标或输入相应地址或取坐标后重试！");
+            } else {
+                if (WorkerName != "" && siteName != "") {
+                    window.external.addMarker(siteName, WorkerName, lng, lat, DeiliteAddress); //getDebugPath()为c#方法
+                    document.getElementById("myPageTop").style.display = "none"; //隐藏
+
+                } else {
+                    alert("请填写相关数据！");
+                }
+            }
+
+        }
+        //隐藏窗体
+        function ColseaddMarkerWindow() {
+            document.getElementById("myPageTop").style.display = "none"; //隐藏
+        }
+        //获取单击的点的经纬度
+        function clearMarker(e) {
+
+            //获取到单击的点坐标
+            var lat = e.target.getPosition();
+            //把坐标存入全局变量
+            getlnglatPoint = lat;
+
+        }
+        //删除点
+        function deleteMarker() {
+            //取全局变量的经纬度值
+            var lnglat = getlnglatPoint;
+            //转换成字符串
+            lnglat = lnglat + "";
+            //定义经度
+            var lng = "";
+            //定义纬度
+            var lat = "";
+            //给经度赋值 从0开始到，结束
+            lng = lnglat.substr(0, lnglat.indexOf(","));
+            //给纬度赋值   从，后一位开始到数组的总长结束
+            lat = lnglat.substr(lnglat.indexOf(",") + 1, lnglat.length - 1);
+
+
+            if (lnglat == "" || typeof (lnglat) == null) {
+                alert("请选择一个点！");
+            } else {
+                //调用后台方法，进行删除
+                window.external.deleteMarker(lng, lat); //getDebugPath()为c#方法
+            }
+        }
+        //刷新页面
+        function updateMarker() {
+            window.external.FindUserMobilephone();
+        }
+
+        //全局变量，存储经纬度
+        var getlnglatPoint = "";
+
+
+        //获取参数说明， 定义一个变量，调用GetQueryString("传入参数名");方法即可，返回的是一个数组
+
+        //------------------------------------------------------------------------------------------------接收参数
+        //获取经纬度
+        var arrdes = GetQueryString("lnglat");
+        //获取站点名称
+        var siteName = GetQueryString("siteNaem");
+        //站点负责人
+        var WorkerName = GetQueryString("WorkerName");
+        //获取站点具体地址
+        var FullName = GetQueryString("FullName");
+
+        //获取Url参数值，传入参数名即可,返回的是一个数组
+        function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                var value = unescape(r[2]);
+                //去掉最后一个字符，是一个，号
+                value = value.substr(0, value.length - 1);
+
+                //定义一个数组来存放传过来的所有参数
+                var Arrvalue = [];
+                //给arrdes赋值  string2Array方法下面有说明
+                Arrvalue = string2Array(value);
+                return Arrvalue;
+            } else {
+                return null;
+            }
+        }
+
+        //将字符转换为数组的方法,去除分割标志
+        function string2Array(stringObj) {
+            stringObj = stringObj.replace(/\[([\w, ]*)\]/, "$1");
+            if (stringObj.indexOf("[") == 0) {// if has chinese
+                stringObj = stringObj.substring(1, stringObj.length - 1);
+            }
+            var arr = stringObj.split("p");    //------------     !!!!!!!!!!!!注意：分割标志p
+            var newArray = []; //new Array();
+            for (var i = 0; i < arr.length; i++) {
+                var arrOne = arr[i];
+                newArray.push(arrOne);
+            }
+            // console.log(newArray);
+            return newArray;
+        };
+
+        //  创建一个地图
+        var map = new AMap.Map('container', {
+            resizeEnable: true,              //是否监控地图容器尺寸变化，默认值为false
+            zoom: 13,                        //初始化大小，从国到街为3-18
+            center: [126.48, 46.83]   //初始化中心点，传入经纬度
+
+        });
+
+        //定义需要的地图控件，类似于实例化一个对象
+        AMap.plugin(['AMap.ToolBar', 'AMap.Scale', 'AMap.OverView', 'AMap.MapType', 'AMap.Geolocation'],
+        //添加地图控件 若不需要，可直接删除代码
+    function () {
+        //集成了缩放、平移、定位等功能按钮在内的组合控件  界面操作集成(鼠标右键双击缩小，鼠标左键双击放大，移动，鼠标滑轮缩放)
+        map.addControl(new AMap.ToolBar());
+
+        //展示地图在当前层级和纬度下的比例尺 左下
+        map.addControl(new AMap.Scale());
+
+        //在地图右下角显示地图的缩略图 右下
+        map.addControl(new AMap.OverView({ isOpen: false }));//默认不打开
+
+        //实现默认图层与卫星图、实施交通图层之间切换的控 右上
+        //map.addControl(new AMap.MapType());
+
+        //用来获取和展示用户主机所在的经纬度位置 左下
+        map.addControl(new AMap.Geolocation());
+    });
+
+        //创建一个信息框，offset是信息框对点的偏移程度，可以调整
+        var infoWindow = new AMap.InfoWindow({ offset: new AMap.Pixel(0, -30) });
+        for (var i = 0, marker; i < arrdes.length; i++) {
+
+            //定义经度
+            var lng = "";
+            //定义纬度
+            var lat = "";
+            //把数组里面的经纬度转换成字符串
+            var lnglat = arrdes[i] + "";
+            //给经度赋值 从0开始到，结束
+            lng = lnglat.substr(0, lnglat.indexOf(","));
+            //给纬度赋值   从，后一位开始到数组的总长结束
+            lat = lnglat.substr(lnglat.indexOf(',') + 1, lnglat.length - 1);
+            //添加一个点，
+            var marker = new AMap.Marker({
+                //点的位置，从上面赋值，直接赋数组的值是无法得到的，所有东西弄了可能有12个小时，这里占了10个小时
+                position: [lng, lat],
+                map: map //地图，就是最开始创建的地图
+            });
+            //这里的content是信息框里面的内容，可以用js拼接成想要的样式或格式
+            marker.content =
+            '<div class="info-title">名称：' + siteName[i] + '</div><div class="info-content">' +
+            '<img src="http://webapi.amap.com/images/amap.jpg">' +
+            '负责人：' + WorkerName[i] + '<br/>' +
+            '地址：' + FullName[i] + '</div>';
+            ;
+            //添加点的单击事件
+            marker.on('click', markerClick);
+            marker.emit('click', { target: marker });
+        }
+
+        //当单击Marker时弹出文本框
+        function markerClick(e) {
+            // alert(e.target.getPosition()); 获取点的经纬度
+            infoWindow.setContent(e.target.content);
+            infoWindow.open(map, e.target.getPosition());
+            clearMarker(e);
+        }
+
+        //自适应点分布位置，使点能够显示完全
+        map.setFitView();
+
+        //获取站点经纬度
+        function getlnglat() {
+            //为地图注册click事件获取鼠标点击出的经纬度坐标
+            var clickEventListener = map.on('click', function (e) {
+                document.getElementById("lnglat").value = e.lnglat.getLng() + ',' + e.lnglat.getLat();
+                document.getElementById("key_11").value = e.lnglat.getLng();
+                document.getElementById("key_12").value = e.lnglat.getLat();
+                geocoder2();
+            });
+        }
+
+
+        //------------------------------------------地址编码解析 begin
+        var mapObj;
+        var result;
+        var marker = [];
+        var windowsArr = [];
+        function mapInit() {
+            mapObj = new AMap.Map('iCenter');
+            var lnglat = getlnglat();
+            //默认定位：初始化加载地图时，center及level属性缺省，地图默认显示用户所在城市范围
+
+        };
+        var MGeocoder;
+        var key_11;
+        var key_12;
+        function geocoder2() {  //POI搜索，关键字查询
+            key_11 = document.getElementById("key_11").value;
+            key_12 = document.getElementById("key_12").value;
+
+            if (key_11 == "" || typeof (key_11) == null || typeof (key_11) == 'undefined') {
+
+                alert("地图还未加载完成，无法获取相应点，请稍后...")
+            }
+
+            var lnglatXY = new AMap.LngLat(key_11, key_12);
+            //document.getElementById('result').innerHTML = "您输入的是：" + key_1;
+            //加载地理编码插件
+            mapObj.plugin(["AMap.Geocoder"], function () {
+                MGeocoder = new AMap.Geocoder({
+                    radius: 1000,
+                    extensions: "all"
+                });
+                //返回地理编码结果
+                AMap.event.addListener(MGeocoder, "complete", geocoder_CallBack2);
+                //逆地理编码
+                MGeocoder.getAddress(lnglatXY);
+            });
+
+            mapObj.setFitView();
+        }
+
+        function geocoder_CallBack2(data) { //回调函数
+            var resultStr = "";
+            var address;
+            //返回地址描述
+            address = data.regeocode.formattedAddress;
+            //返回周边道路信息
+
+            //返回结果拼接输出
+            resultStr = "<div style=\"font-size: 12px;padding:0px 0 4px 2px; border-bottom:1px solid #C1FFC1;\">" + "<b>地址</b>：" + address + "</div>";
+            document.getElementById("tipinput").value = address;
+            document.getElementById("result").innerHTML = resultStr;
+        }
+        //------------------------------------------地址编码解析 end
+
+
+
+        //---------------------------------------------右键菜单    begin
+
+        var contextMenu = new AMap.ContextMenu();  //创建右键菜单
+        //右键放大
+        contextMenu.addItem("放大一级", function () {
+            map.zoomIn();
+        }, 0);
+        //右键缩小
+        contextMenu.addItem("缩小一级", function () {
+            map.zoomOut();
+        }, 1);
+        //右键显示全国范围
+        contextMenu.addItem("缩放至全国范围", function (e) {
+            map.setZoomAndCenter(4, [108.946609, 34.262324]);
+        }, 2);
+        //右键添加Marker站点
+        contextMenu.addItem("添加站点", function (e) {
+            addMarker();   //------------------------------------直接写方法，然后把上面的方法删了就行了
+        }, 3);
+        //右键添加Marker站点
+        contextMenu.addItem("删除站点", function (e) {
+
+        }, 4);//  ----------------------------------要添加跟多按钮的时候注意第三个参数不能重复
+
+        //地图绑定鼠标右击事件——弹出右键菜单
+        map.on('rightclick', function (e) {
+            contextMenu.open(map, e.lnglat);
+            contextMenuPositon = e.lnglat;
+        });
+
+        //---------------------------------------------右键菜单    begin
+
+
+    </script>
+    <div id="myPageTop" style="">
+        <table>
+            <tr>
+                <td colspan="2">
+                    <label>
+                        <span style="color: Red">点击地图上相应位置即可添加地址及相应经纬度！</span>
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>
+                        查询地址（手动输入查询）：
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                    <input type="text" placeholder="" id="siteName" style="width:375px;">
+                </td>
+
+            </tr>
+            <tr style="display: none">
+                <td>
+                    <div id="iCenter">
+                    </div>
+                    <div id="result">
+                    </div>
+                    <div id="iControlbox">
+
+                        <input type="text" id="key_11" value="126.48" />
+                        <input type="text" id="key_12" value="46.83" />
+                        <button onclick="javascript:geocoder2();">
+                            逆地址解析
+                        </button>
+
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <label>
+                        经纬度(点击地图获取)：
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="text" readonly="true" id="lnglat" style="width:375px;">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <label>
+                        详细地址(点击地图获取地址)：
+                    </label>
+                </td>
+
+            </tr>
+            <tr>
+
+                <td colspan="2">
+                    <input type="text" placeholder="详细地址" readonly="true" id="tipinput" style="width:375px;">
+                </td>
+            </tr>
+            <tr></tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="button" class="button" style="width: 180px; height: 30px;" value="查询"
+                           onclick="AddMarkerBtn();" />
+                    <input type="button" class="button" style="width: 180px; height: 30px;" value="关闭窗体"
+                           onclick="ColseaddMarkerWindow();" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

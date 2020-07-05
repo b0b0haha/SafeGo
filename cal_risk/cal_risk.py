@@ -1,12 +1,12 @@
-from get_speed import *
-from load_cases import *
-from get_district import *
-from get_visitors import *
-from get_key import *
-from get_location import *
-from get_population import *
-from get_area import *
-from get_gdp import *
+from cal_risk.get_speed import *
+from cal_risk.load_cases import *
+from cal_risk.get_district import *
+from cal_risk.get_visitors import *
+from cal_risk.get_key import *
+from cal_risk.get_location import *
+from cal_risk.get_population import *
+from cal_risk.get_area import *
+from cal_risk.get_gdp import *
 # import pandas as pd
 #risk = 0, 1, 2分别表示低，中，高风险
 def cal_risk_from_name(name, city):
@@ -52,6 +52,6 @@ def cal_risk_from_name(name, city):
 
 # while(1):
 #     # visitors = get_visitors(lon, lat, 0)
-risk = cal_risk_from_name('清华大学', '北京')
-print(risk)
+#risk = cal_risk_from_name('清华大学', '北京')
+#print(risk)
 

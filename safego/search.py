@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 #from django.views.decorators import csrf #在处理post请求的时候一定要加上
 from cal_risk.cal_risk import *
+from cal_risk.update_cases import *
 from KBQA_AC.chatbot import ChatBotGraph
 # 响应对象主要有三种形式：HttpResponse(),render(),redirect()
 # render和redirect都是对HttpResponse的封装
@@ -9,13 +10,16 @@ from KBQA_AC.chatbot import ChatBotGraph
 # redirect(页面）一般用于form表单提交，跳转到新的页面
 
 ctx={}
-handler = ChatBotGraph()
-
+#handler = ChatBotGraph()
+#update_cases()
 # 表单
 def search_form(request):
     return render(request,'search_form.html',context=None)
 
-
+def search_by_map(request):
+    return render(request,'map-geo.html',context=None)
+def go_back(request):
+    return render(request,'search_form.html',context=None)
 # 接收请求数据
 def search_get(request):
     global ctx
@@ -35,7 +39,8 @@ def search_advise(request):
     if request.POST:
         question=request.POST['q']
         print(question)
-        answer = handler.chat_main(question)
+        answer=''
+        #answer = handler.chat_main(question)
         ctx['answer']=answer
         ctx['question']=question
     return render(request,"search_form.html",ctx)

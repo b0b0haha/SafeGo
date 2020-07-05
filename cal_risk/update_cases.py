@@ -16,8 +16,11 @@ def get_cases():
         dump(data, f)
 
 def update_cases():
+    get_cases()
+    '''
     while(1):
         get_cases()
         sleep(86400)
+    '''
 
-update_cases()
+#update_cases()
