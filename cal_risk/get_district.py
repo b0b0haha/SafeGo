@@ -2,7 +2,7 @@
 from json import loads
 import requests
 from requests import get
-from get_key import *
+from cal_risk.get_key import *
 def get_district(lon, lat):
     key = get_key()
     res = get(

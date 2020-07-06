@@ -2,7 +2,7 @@
 from requests import get
 from json import loads
 from numpy import array, mean
-from get_key import *
+from cal_risk.get_key import *
 def get_speed(lon, lat):
     key = get_key()
     res = get('https://restapi.amap.com/v3/traffic/status/circle?location=' + lon + ',' + lat  +'&radius=1000&key=' + key + '&extensions=all',verify=False)
