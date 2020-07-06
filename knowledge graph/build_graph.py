@@ -1,27 +1,30 @@
 #!/usr/bin/env python3
 # coding: utf-8
+# File: build_graph.py
+# Author: Suriel
+# Date: 20-6-24
 
 import os
 import json
 from py2neo import Graph, Node
 
 
-class MapGraph:
+class placeGraph:
     def __init__(self):
         cur_dir = '/'.join(os.path.abspath(__file__).split('/')[:-1])
-        self.data_path = os.path.join(cur_dir, 'data/place1.json')
+        self.data_path = os.path.join(cur_dir, 'data/place.json')
         self.data_path2 = os.path.join(cur_dir, 'data/measure.json')
         self.g = Graph(
             host="127.0.0.1",  # neo4j 搭载服务器的ip地址，ifconfig可获取到
             http_port=7474,  # neo4j 服务器监听的端口号
             user="neo4j",  # 数据库user name，如果没有更改过，应该是neo4j
-            password="")
+            password="neo4j")
         print("connect successful")
 
     '''读取文件'''
 
     def read_nodes(self):
-        # 共７类节点 13+1
+        # 共6类节点 13+1
         print("read_nodes")
         # 地点
         places = []
@@ -36,7 +39,7 @@ class MapGraph:
 
         place_infos = []
 
-        # 构建节点实体关系 33
+        # 构建节点实体关系
         # 地点与类型关系
         rels_place_type = []
         # 地点与区域关系
@@ -59,23 +62,29 @@ class MapGraph:
             places.append(place)
             place_dict['tel'] = ''
             place_dict['address'] = ''
+            place_dict['lon'] = ''
+            place_dict['lat'] = ''
             # 读取属性值
             if 'tel' in data_json:
                 place_dict['tel'] = data_json['tel']
             if 'address' in data_json:
                 place_dict['address'] = data_json['address']
+            if 'lon' in data_json:
+                place_dict['lon'] = data_json['lon']
+            if 'lat' in data_json:
+                place_dict['lat'] = data_json['lat']
             if 'type' in data_json:
                 ptype = data_json['type'].split(';')[0]
-                print(ptype)
+                # print(ptype)
                 rels_place_type.append([place, ptype])
                 types += ptype.split()
-            print(types)
+            # print(types)
             if 'business_area' in data_json:
                 area = data_json['business_area']
-                print(area)
+                # print(area)
                 rels_place_area.append([place, area])
                 areas += area.split()
-            print(areas)
+            # print(areas)
             place_infos.append(place_dict)
             # print(set(types))
         for data2 in open(self.data_path2, encoding='utf-8'):
@@ -83,22 +92,22 @@ class MapGraph:
             ptype = data_json['type']
             if 'low_measure' in data_json:
                 low_measure = data_json['low_measure']
-                print(low_measure)
+                # print(low_measure)
                 rels_type_lowmeasure.append([ptype, low_measure])
                 low_measures.append(low_measure)
-            print(low_measures)
+            # print(low_measures)
             if 'mid_measure' in data_json:
                 mid_measure = data_json['mid_measure']
-                print(mid_measure)
+                # print(mid_measure)
                 rels_type_midmeasure.append([ptype, mid_measure])
                 mid_measures.append(mid_measure)
-            print(mid_measures)
+            # print(mid_measures)
             if 'hig_measure' in data_json:
                 hig_measure = data_json['hig_measure']
-                print(hig_measure)
+                # print(hig_measure)
                 rels_type_higmeasure.append([ptype, hig_measure])
                 hig_measures.append(hig_measure)
-            print(hig_measures)
+            # print(hig_measures)
         return set(places), set(types), set(areas), set(low_measures), set(mid_measures), set(hig_measures), place_infos, rels_place_type, rels_place_area, rels_type_lowmeasure, rels_type_midmeasure, rels_type_higmeasure
 
     '''建立节点'''
@@ -112,19 +121,19 @@ class MapGraph:
             print(count, len(nodes))
         return
 
-    '''创建知识图谱中心疾病的节点'''
+    '''创建地点中心节点'''
 
     def create_places_nodes(self, place_infos):
         count = 0
         for place_dict in place_infos:
             node = Node(
-                "places", name=place_dict['name'], tel=place_dict['tel'], address=place_dict['address'])
+                "places", name=place_dict['name'], tel=place_dict['tel'], address=place_dict['address'],lon=place_dict['lon'],lat=place_dict['lat'])
             self.g.create(node)
             count += 1
             print(count)
         return
 
-    '''创建知识图谱实体节点类型schema'''
+    '''创建实体节点类型'''
 
     def create_graphnodes(self):
         # 修改
@@ -182,13 +191,32 @@ class MapGraph:
     '''导出数据'''
 
     def export_data(self):
-        rels_place_type = self.read_nodes()
+        places, types, areas, low_measures, mid_measures, hig_measures, place_infos, rels_place_type, rels_place_area, rels_type_lowmeasure, rels_type_midmeasure, rels_type_higmeasure = self.read_nodes()
+        fplaces = open('places.txt', 'w+')
+        ftypes = open('ftypes.txt', 'w+')
+        fareas = open('areas.txt', 'w+')
+        flow_measures = open('low_measures.txt', 'w+')
+        fmid_measures = open('mid_measures.txt', 'w+')
+        fhig_measures = open('hig_measures.txt', 'w+')
+
+        fplaces.write('\n'.join(list(places)))
+        ftypes.write('\n'.join(list(types)))
+        fareas.write('\n'.join(list(areas)))
+        flow_measures.write('\n'.join(list(low_measures)))
+        fmid_measures.write('\n'.join(list(mid_measures)))
+        fhig_measures.write('\n'.join(list(hig_measures)))
+        fplaces.close()
+        ftypes.close()
+        fareas.close()
+        flow_measures.close()
+        fmid_measures.close()
+        fhig_measures.close()
 
         return
 
 
 if __name__ == '__main__':
-    handler = MapGraph()
+    handler = placeGraph()
     handler.create_graphnodes()
     handler.create_graphrels()
-    # handler.export_data()
+    handler.export_data()
