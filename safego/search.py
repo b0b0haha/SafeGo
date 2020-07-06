@@ -13,13 +13,16 @@ ctx={}
 handler = ChatBotGraph()
 #update_cases()
 # 表单
+
+
+
 def search_form(request):
-    return render(request,'search_form.html',context=None)
+    return render(request, 'search_form.html', context=None)
 
 def search_by_map(request):
     return render(request,'map-geo.html',context=None)
 def go_back(request):
-    return render(request,'search_form.html',context=None)
+    return render(request, 'search_form.html', context=None)
 # 接收请求数据
 def search_get(request):
     global ctx
@@ -31,7 +34,7 @@ def search_get(request):
     else:
         message = '你提交了空表单'
     ctx['rlt1']=message
-    return render(request,"search_form.html",ctx)
+    return render(request, "search_form.html", ctx)
 
 def search_advise(request):
     global ctx
@@ -43,32 +46,55 @@ def search_advise(request):
         answer = handler.chat_main(question)
         ctx['answer']=answer
         ctx['question']=question
-    return render(request,"search_form.html",ctx)
+    return render(request, "search_form.html", ctx)
 
-def search_all(request):
+def search_simple(request):
+    #处理的是用户输入的地址
     global ctx
     if request.POST:
         address = request.POST.get('address')
-        detail_address=request.POST.get('detail_address')
-        # TODO 对于地图上选址的点获得的详细的地址没有进行特殊的处理(detail_address)-需要加入正则表达式来拆解
-        # TODO 对于用户输入的地址可以自动识别城市(address)
-        # TODO 需要限制地图显示的范围
         ctx['address']=address
-        ctx['detail_address'] = detail_address
-
         city='北京'
         risk = cal_risk_from_name(address, city)
-        answer = handler.chat_main(address)
+        answer = handler.chat_main(address+'防控建议')
         ctx['answer']=answer
         strrisk = ''
         if (risk == 0):
             strrisk = '低风险'
         elif (risk == 1):
             strrisk = '中风险'
-        else:
+        elif (risk == 2):
             strrisk = '高风险'
+        else:
+            strrisk = '查询不到,请检查输入的地址！'
         ctx['risk'] = strrisk
     return render(request,"map-geo.html",ctx)
+
+def search_detail(request):
+    #处理的是详细的地址
+    global ctx
+    if request.POST:
+        address = request.POST.get('detail-address')
+        lnglat=request.POST.get('lnglat')
+        ctx['detail_address'] = address
+        ctx['lnglat']=lnglat
+        city = '北京'
+        real_address=address.split('市')[-1]
+        print(real_address)
+        risk = cal_risk_from_name(real_address, city)
+        answer = handler.chat_main(address+'防控建议')
+        ctx['answer'] = answer
+        strrisk = ''
+        if (risk == 0):
+            strrisk = '低风险'
+        elif (risk == 1):
+            strrisk = '中风险'
+        elif(risk==2):
+            strrisk = '高风险'
+        else:
+            strrisk='查询不到,请检查输入的地址！'
+        ctx['risk'] = strrisk
+    return render(request, "map-geo.html", ctx)
 
 def search_risk(request):
     global ctx
@@ -78,13 +104,15 @@ def search_risk(request):
         ctx['address']=address
         ctx['city']=city
         risk = cal_risk_from_name(address, city)
-        strrisk=''
-        if(risk==0):
-            strrisk='低风险'
-        elif(risk==1):
-            strrisk='中风险'
+        strrisk = ''
+        if (risk == 0):
+            strrisk = '低风险'
+        elif (risk == 1):
+            strrisk = '中风险'
+        elif (risk == 2):
+            strrisk = '高风险'
         else:
-            strrisk='高风险'
+            strrisk = '查询不到,请检查输入的地址！'
         ctx['risk']=strrisk
         print(address,city,risk)
     return render(request, "search_form.html", ctx)

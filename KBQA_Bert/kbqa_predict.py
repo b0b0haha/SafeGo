@@ -8,10 +8,10 @@ import pickle
 import os
 from datetime import time, timedelta, datetime
 
-from run_ner import create_model, InputFeatures, InputExample
-from bert import tokenization
-from bert import modeling
-from answer_search import *
+from KBQA_Bert.run_ner import create_model, InputFeatures, InputExample
+from KBQA_Bert.bert import tokenization
+from KBQA_Bert.bert import modeling
+from KBQA_Bert.answer_search import *
 
 # tensorflow中可以通过配置环境变量 'TF_CPP_MIN_LOG_LEVEL' 的值，控制tensorflow是否屏蔽通知信息、警告、报错等输出信息。
 os.environ['CUDA_VISIBLE_DEVICES'] = '3'
@@ -418,4 +418,5 @@ if __name__ == "__main__":
     # if FLAGS.do_predict_outline:
     #     predict_outline()
     # if FLAGS.do_predict_online:
-    predict_online()
+    #predict_online()
+    pass

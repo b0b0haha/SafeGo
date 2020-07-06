@@ -1,13 +1,28 @@
-{% load static %}
+﻿{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html class="no-js" lang="en-US">
 <head>
-    <meta charset="UTF-8">
-    <title>SafeGo</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
-</head>
+    <!-- meta -->
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1">
+    <meta name="keywords" content="pvr, pvr tech studio, css chat box, pvr admin, pvr tech admin"/>
+    <meta name="description" content="PVR Tech Studio, We Design your Future.">
+    <!-- Add Your favicon here -->
+    <link rel="icon" href="{% static "assets/img/favicon/favicon-32x32.png" %}">
 
+    <!-- Title -->
+    <title>safego</title>
+
+
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+
+    <!-- ***** Boostrap Custom / Addons Stylesheets ***** -->
+    <link href="{% static "assets/plugins/bootstrap/css/bootstrap.min.css" %}"rel="stylesheet"/>
+    <link href="{% static "assets/plugins/material_icon/icon.css" %}" rel="stylesheet"/>
+
+    <!-- Required CSS file for CSS Chat Panels element -->
+    <link rel="stylesheet" href="{%static "assets/css/chat_box.css" %}"type="text/css" media="all">
+</head>
 <style>
     body {
       background-color:#EAEAEA;
@@ -24,10 +39,7 @@
         }
 
 </style>
-<!--canvas id="cas">
-</canvas-->
 <body>
-
 <canvas id='cas' style="left: 0px; border:none; position:absolute;z-index:-1;"></canvas>
 <script>
   var canvas = document.getElementById("cas");
@@ -148,13 +160,14 @@
   }
 </script>
 
-
 <div class="jumbotron text-center" style="margin-bottom:0; background-color:rgba(0,0,0,0);">
     <h1>安心出行</h1>
 </div>
 
-<div class="container">
-    <a href="{%  url 'search_by_map' %}">
+<!-- PAGE CONTENT BEGINS -->
+<div class="container perfect_scrollbar" id="container">
+
+ <a href="{%  url 'search_by_map' %}">
     <img style="float:right"  src="{% static "images/search.png" %}" alt="地图寻址">
     </a>
     <div class="row">
@@ -192,10 +205,84 @@
                 
         </div>
     </div>
+
+    <div class="pvr_chat_button">
+        <i class="material-icons">chat</i>
+        <span>向我提问吧</span>
+    </div>
+    <div class="pvr_chat_wrapper">
+        <div class="pvr_chat_content">
+            <div class="close_chat">
+                <i class="material-icons">close</i>
+            </div>
+            <div class="chat_header">
+                <div class="pvr-user-w with-status status-green">
+                    <div class="pvr-user-avatar-w">
+                        <div class="user-avatar">
+                            <img alt="" src="{% static "assets/img/avatar/default-avatar.jpg" %}">
+                        </div>
+                    </div>
+                    <div class="user-name">
+                        <h6 class="user-title">
+                            <a href="http://bootstrapmb.com/" target="_blank">PVR Tech Studio</a>
+                        </h6>
+                        <div class="user-role">
+                            Administrator
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-messages theme_2">
+                <div class="message">
+                    <div class="message-content">
+                        Lorem Ipsum is simply dummy.
+                    </div>
+                </div>
+                <div class="date-break">
+                    Mon 10:20am
+                </div>
+                <div class="message">
+                    <div class="message-content">
+                        Lorem Ipsum is simply dummy text of the printing.
+                    </div>
+                </div>
+                <div class="message self">
+                    <div class="message-content">
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                    </div>
+                </div>
+            </div>
+            <div class="chat-controls">
+                <input class="message-input" id="message-input" placeholder="Type your message here..." type="text">
+                <div class="chat-extra">
+                    <a href="javascript:void(0)">
+                        <span class="extra-tooltip">Attach Document</span>
+                        <i class="material-icons">attach_file</i>
+                    </a>
+                    <a href="javascript:void(0)">
+                        <span class="extra-tooltip">Insert Photo</span>
+                        <i class="material-icons">add_a_photo</i>
+                    </a>
+                    <a href="javascript:void(0)" class="change_chat_theme">
+                        <span class="extra-tooltip">Change chat theme</span>
+                        <i class="material-icons">refresh</i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <footer id='footer' class="container-fluid foot-wrap">
             <p>2020 Google Girl Hackathon 珍珠奶茶大杯全糖队参赛作品</p>    
 </footer>
-
+<!-- END CONTENT BEGINS -->
+    <!--下面是无用代码-->
+    <a style="display:none" href="http://www.bootstrapmb.com">bootstrap模板库</a>
+    <!--上面是无用代码-->
+<!--   Core JS Files   -->
+<script src="{% static "assets/plugins/jquery/jquery-3.2.1.min.js"  %}" type="text/javascript"></script>
+<script src="{% static  "assets/plugins/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"%}" type="text/javascript"></script>
+<script src="{% static "assets/plugins/backstretch/backstretch.js" %}" type="text/javascript"></script>
+<script src="{% static "assets/js/app.js" %}"></script>
 </body>
 </html>

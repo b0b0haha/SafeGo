@@ -5,7 +5,7 @@
 # Date: 20-6-18
 
 from py2neo import Graph
-from run_similarity import BertSim
+from KBQA_Bert.run_similarity import BertSim
 import io
 import re
 import time

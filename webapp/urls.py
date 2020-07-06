@@ -26,4 +26,5 @@ urlpatterns = [
     path('admin/', admin.site.urls), # 用于配置超级用户
     path('safego/',include("safego.urls")),
 
+
 ]

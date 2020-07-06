@@ -8,9 +8,9 @@ import pickle
 import os
 from datetime import time, timedelta, datetime
 
-from run_ner import create_model, InputFeatures, InputExample
-from bert import tokenization
-from bert import modeling
+from KBQA_Bert.run_ner import create_model, InputFeatures, InputExample
+from KBQA_Bert.bert import tokenization
+from KBQA_Bert.bert import modeling
 
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'

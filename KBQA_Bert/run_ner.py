@@ -13,12 +13,12 @@ import tensorflow as tf
 import codecs
 from tensorflow.contrib.layers.python.layers import initializers
 from tensorflow.contrib import estimator
-from bert import modeling
-from bert import optimization
-from bert import tokenization
-from lstm_crf_layer import BLSTM_CRF
+from KBQA_Bert.bert import modeling
+from KBQA_Bert.bert import optimization
+from KBQA_Bert.bert import tokenization
+from KBQA_Bert.lstm_crf_layer import BLSTM_CRF
 
-import tf_metrics
+import KBQA_Bert.tf_metrics
 import pickle
 
 # os.environ['CUDA_VISIBLE_DEVICES'] = '0'

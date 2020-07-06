@@ -26,8 +26,8 @@ import pandas as pd
 
 #risk = 0, 1, 2分别表示低，中，高风险
 def cal_risk_from_name(name, city):
-    # key = get_key()
-    lon, lat = get_location(name, city)
+    key = get_key()
+    lon, lat = get_location(name, city,key)
     if(lon == '0' and lat == '0'):
         print('查不到')
         return 3
