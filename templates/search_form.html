@@ -10,14 +10,14 @@
 
 <style>
     body {
-        background-color:#EAEAEA;
-        min-height: 100%;
+      background-color:#EAEAEA;
+      min-height: 100%;
 
     }
     #footer {
             text-align: center;
             height: 40px;
-            background: #e5e5e5e5;
+            background: rgba(0,0,0,0);
             width: 100%;
             position: absolute;
             bottom: 0;
@@ -28,7 +28,7 @@
 </canvas-->
 <body>
 
-
+<canvas id='cas' style="left: 0px; border:none; position:absolute;z-index:-1;"></canvas>
 <script>
   var canvas = document.getElementById("cas");
   var ctx = canvas.getContext("2d");
@@ -147,7 +147,9 @@
     RAF(animate);
   }
 </script>
-<div class="jumbotron text-center" style="margin-bottom:0;">
+
+
+<div class="jumbotron text-center" style="margin-bottom:0; background-color:rgba(0,0,0,0);">
     <h1>安心出行</h1>
 </div>
 
