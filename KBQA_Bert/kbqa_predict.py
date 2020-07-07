@@ -135,27 +135,29 @@ def predict_online():
             print('识别的实体有：{}'.format(''.join(result)))
             entity = '{}'.format(''.join(result))
             # 调用api获取lat lon risk
-            lat = "40.474198"
-            lon = "116.876226"
-            risk = 0
-            # print(lat)
-            # print(lon)
-            # print(risk)
-            # print('Time used: {} sec'.format((datetime.now() - start).seconds))
-            # entity = '{}'.format(''.join(result))
-            # print(entity)
-            # question = 'XX医院的防控建议是什么'
-            risk = 0
-            kb_fuzzy_classify_test(entity, question, risk, lat, lon)
+            city = "北京"
+            # key = ''
+            # lon, lat = get_location(entity, city, key)
+            # risk = 0
+            if(lon != '0'):
+                kb_fuzzy_classify_test(entity, question, risk, lat, lon)
+            else:
+                print("您的问题暂无答案，已收录……")
 
 # 匹配查询
 
 
 def kb_fuzzy_classify_test(entity, question, risk, lat, lon):
     searcher = AnswerSearcher()
-    answerbot = searcher.search_main(question, entity, risk, lat, lon)
+    # 按照经纬度选最近的top10，距离升序排列
+    places = searcher.search_single(lat, lon)
+    print(places)
+    # 计算 mindistance，返回entity
+    place = min_distance(entity, places)
+    # 第一个是相似度最大+距离最近
+    print(place[0])
+    answerbot = searcher.search_main(question, place[0], risk, lat, lon)
     print(answerbot)
-
 
 def convert_id_to_label(pred_ids_result, idx2label):
     """
