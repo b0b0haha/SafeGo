@@ -2,9 +2,9 @@ import requests
 import json
 import time
 
-# from get_key import *
-def get_location(address, city, key):
-    # key = get_key()
+from cal_risk.get_gdp import *
+def get_location(address, city):
+    key = get_key()
     res=''
     while (res==''):
         try:
