@@ -7,9 +7,12 @@ def get_population(district):
                 '110116' :'42.2', '110118' :'50.3', '110107' :'57.2',
                 '110109' :'34.4', '110119' :'35.7', '110113' :'122.8',
                 '110117':'45.6'}
-    population = population_key[district]
-    population = float(population)
-    return population
+    if (district in population_key):
+        population = population_key[district]
+        population = float(population)
+        return population
+    else:
+        return '0'
 
 # district_key = {'110105': 'China|Beijing|Chaoyang District', '110108' :'China|Beijing|Haidian District', '110102' :'China|Beijing|Xicheng District',
 #                 '110106' :'China|Beijing|Fengtai District', '110115' :'China|Beijing|Daxing District','110114' :'China|Beijing|Changping District',

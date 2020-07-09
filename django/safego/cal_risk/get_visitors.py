@@ -1,10 +1,11 @@
-import requests
-import json
-import requests
-import json
-import pandas as pd
-import time
-import math
+# import requests
+# import json
+# import requests
+from requests import post
+# import json
+from json import loads, dumps
+# import time
+# import math
 
 
 def get_TecentData(lon, lat, count, rank):
@@ -16,9 +17,9 @@ def get_TecentData(lon, lat, count, rank):
     url = 'https://xingyun.map.qq.com/api/getXingyunPoints'
     locs = ''
     paload = {'count': count, 'rank': rank}
-    response = requests.post(url, data=json.dumps(paload))
+    response = post(url, data=dumps(paload))
     datas = response.text
-    dictdatas = json.loads(datas)
+    dictdatas = loads(datas)
     time = dictdatas["time"]
     locs = dictdatas["locs"]
     locss = locs.split(",")
