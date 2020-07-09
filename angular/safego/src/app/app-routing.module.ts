@@ -1,24 +1,26 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { AppComponent } from './app.component';
+
+import { HomeComponent } from './components/home/home.component'
+import { MapGeoComponent } from './components/map-geo/map-geo.component'
+
 
 const routes: Routes = [
   {
-      path: '',
-      component: AppComponent
+    path:'home', component : HomeComponent
   },
+
+  {
+    path:'search_by_map', component : MapGeoComponent
+  },
+
+  {
+    path:'**', redirectTo : 'home'
+  }
 ];
 
 @NgModule({
-  declarations: [
-  ],
-  imports: [
-    RouterModule.forRoot(routes),
-    FormsModule,
-    HttpClientModule
-  ],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
