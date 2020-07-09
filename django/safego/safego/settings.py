@@ -60,14 +60,44 @@ SECRET_KEY = '-df#ixc(&y1d@q1_-z@dm62q47gzjmh+=g6t*v-(-8)15=&jtf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# 允许跨域
+
+
 ALLOWED_HOSTS = []
 
 CORS_ORIGIN_WHITELIST = (
-    'http://127.0.0.1:8000',
+    'http://0.0.0.0:4200',
     'http://127.0.0.1:4200',
+    'http://localhost:4200',
 )
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_METHODS = (
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+    'VIEW',
+)
+
+CORS_ALLOW_HEADERS = (
+    'XMLHttpRequest',
+    'X_FILENAME',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'Pragma',
+)
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = False
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -81,6 +111,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -89,7 +120,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'safego.urls'
@@ -160,4 +190,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static/' # 别名
+STATICFILES_DIRS=[
+    os.path.join(BASE_DIR,"statics")
+]
