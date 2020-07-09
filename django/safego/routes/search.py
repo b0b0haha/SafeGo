@@ -13,11 +13,6 @@ import logging
 ctx={}
 handler = ChatBotGraph()
 
-# 表单
-def search_form(request):
-    return render(request,'search_form.html',context=None)
-
-
 # 接收请求数据
 def search_get(request):
     global ctx
@@ -62,6 +57,59 @@ def search_risk(request):
         else:
             strrisk='高风险'
         ctx['risk']=strrisk
+    return HttpResponse(json.dumps(ctx), content_type="application/json,charset=utf-8")
+
+def search_simple(request):
+    #处理的是用户输入的地址
+    global ctx
+    parameter_json = request.body
+    parameter = json.loads(parameter_json)
+    print(parameter)
+    if parameter:
+        address = parameter.get('address')
+        ctx['address']=address
+        city='北京'
+        risk = cal_risk_from_name(address, city)
+        answer = handler.chat_main(address+'防控建议')
+        ctx['answer']=answer
+        strrisk = ''
+        if (risk == 0):
+            strrisk = '低风险'
+        elif (risk == 1):
+            strrisk = '中风险'
+        elif (risk == 2):
+            strrisk = '高风险'
+        else:
+            strrisk = '查询不到,请检查输入的地址！'
+        ctx['risk'] = strrisk
+    return HttpResponse(json.dumps(ctx), content_type="application/json,charset=utf-8")
+
+def search_detail(request):
+    global ctx
+    parameter_json = request.body
+    parameter = json.loads(parameter_json)
+    print(parameter)
+    if parameter:
+        lnglat = parameter.get('lnglat')
+        detail_address = parameter.get('detail_address')
+        ctx['detail_address'] = detail_address
+        ctx['lnglat']=lnglat
+        city = '北京'
+        real_address=detail_address.split('市')[-1]
+        print(real_address)
+        risk = cal_risk_from_name(real_address, city)
+        answer = handler.chat_main(detail_address+'防控建议')
+        ctx['answer'] = answer
+        strrisk = ''
+        if (risk == 0):
+            strrisk = '低风险'
+        elif (risk == 1):
+            strrisk = '中风险'
+        elif(risk==2):
+            strrisk = '高风险'
+        else:
+            strrisk='查询不到,请检查输入的地址！'
+        ctx['risk'] = strrisk
     return HttpResponse(json.dumps(ctx), content_type="application/json,charset=utf-8")
 
 
