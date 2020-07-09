@@ -25,11 +25,15 @@
             ],
             "styles": [
               "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/assets/leaflet/leaflet.css"
+              "src/assets/plugins/bootstrap/css/bootstrap.min.css",
+              "src/assets/plugins/material_icon/icon.css",
+              "src/assets/css/chat_box.css"
             ],
             "scripts": [
-              "src/assets/leaflet/leaflet.js"
+              "src/assets/plugins/jquery/jquery-3.2.1.min.js",
+              "src/assets/plugins/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js",
+              "src/assets/plugins/backstretch/backstretch.js",
+              "src/assets/js/app.js"
             ]
           },
           "configurations": {
@@ -66,8 +70,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "safego:build",
-            "proxyConfig":"proxy.config.json"
+            "browserTarget": "safego:build"
           },
           "configurations": {
             "production": {
@@ -128,6 +131,6 @@
   },
   "defaultProject": "safego",
   "cli": {
-    "analytics": "07c47c1b-7bef-4289-a1b3-653a60236a91"
+    "analytics": "33143f34-7993-435d-9e85-31c562f2289b"
   }
 }
