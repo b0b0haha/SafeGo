@@ -5,10 +5,10 @@ from threading import Thread
 import pandas as pd
 import tensorflow as tf
 import collections
-import KBQA_Bert.args
-from KBQA_Bert.bert import tokenization
-from KBQA_Bert.bert import modeling
-from KBQA_Bert.bert import optimization
+import args
+from bert import tokenization
+from bert import modeling
+from bert import optimization
 
 
 # os.environ['CUDA_VISIBLE_DEVICES'] = '1'

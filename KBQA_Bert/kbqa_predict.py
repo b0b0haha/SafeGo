@@ -6,12 +6,14 @@ import numpy as np
 import codecs
 import pickle
 import os
+import socket
 from datetime import time, timedelta, datetime
 
-from KBQA_Bert.run_ner import create_model, InputFeatures, InputExample
-from KBQA_Bert.bert import tokenization
-from KBQA_Bert.bert import modeling
-from KBQA_Bert.answer_search import *
+from run_ner import create_model, InputFeatures, InputExample
+from bert import tokenization
+from bert import modeling
+from answer_search import *
+from cal_risk.get_location import *
 
 # tensorflow中可以通过配置环境变量 'TF_CPP_MIN_LOG_LEVEL' 的值，控制tensorflow是否屏蔽通知信息、警告、报错等输出信息。
 os.environ['CUDA_VISIBLE_DEVICES'] = '3'
@@ -37,7 +39,7 @@ use_one_hot_embeddings = False
 batch_size = 1
 
 gpu_config = tf.ConfigProto()
-gpu_config.gpu_options.allow_growth = True
+# gpu_config.gpu_options.allow_growth = True
 sess = tf.Session(config=gpu_config)
 model = None
 
@@ -86,6 +88,7 @@ tokenizer = tokenization.FullTokenizer(
 
 
 def predict_online():
+    print("predict_online")
     """
     do online prediction. each time make prediction for one instance.
     you can change to a batch if you want.
@@ -108,14 +111,21 @@ def predict_online():
 
     global graph
     with graph.as_default():
+        socketserver = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        local_address = ('127.0.0.1', 8002)
+        socketserver.bind(local_address)
+        clientsocket,addr = socketserver.accept()
         # print(id2label)
         while True:
-            print('input the test sentence:')
-            sentence = str(input())
+            #sentence = str(input())
+            recv_data = clientsocket.recv(1024)
+            sentence = recv_data[0]
+            print(sentence)
             question = sentence
             start = datetime.now()
             if len(sentence) < 2:
                 # print(sentence)
+                clientsocket.send(('question is too short').encode('utf-8'))
                 continue
             sentence = tokenizer.tokenize(sentence)
             # print('your input is:{}'.format(sentence))
@@ -136,13 +146,16 @@ def predict_online():
             entity = '{}'.format(''.join(result))
             # 调用api获取lat lon risk
             city = "北京"
-            # key = ''
-            # lon, lat = get_location(entity, city, key)
-            # risk = 0
+            key = ''
+            lon, lat = get_location(entity, city, key)
+            risk = 0
             if(lon != '0'):
-                kb_fuzzy_classify_test(entity, question, risk, lat, lon)
+                answer = kb_fuzzy_classify_test(entity, question, risk, lat, lon)
             else:
+                answer = "您的问题暂无答案，已收录……"
                 print("您的问题暂无答案，已收录……")
+            clientsocket.send(answer.encode('utf-8'))
+        udp_soc.close()
 
 # 匹配查询
 
@@ -158,6 +171,7 @@ def kb_fuzzy_classify_test(entity, question, risk, lat, lon):
     print(place[0])
     answerbot = searcher.search_main(question, place[0], risk, lat, lon)
     print(answerbot)
+    return answerbot
 
 def convert_id_to_label(pred_ids_result, idx2label):
     """
@@ -420,5 +434,5 @@ if __name__ == "__main__":
     # if FLAGS.do_predict_outline:
     #     predict_outline()
     # if FLAGS.do_predict_online:
-    #predict_online()
+    predict_online()
     pass
