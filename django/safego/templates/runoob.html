@@ -1,0 +1,7 @@
+{% load my_tags %}
+{% load static %}
+<h1>{{ hello }}</h1>
+{{ 11|my_filter:22 }}
+{% my_tag1 11 22 33 %}
+{% my_html "zzz" "xxx" %}
+{{ name }}<img src="{% static "images/1.jpg" %}" alt="runoob-logo">

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QA</title>
+</head>
+<body>
+<form action="/search-post/" method="post">
+        {% csrf_token %}
+        <input type="text" name="q">
+        <input type="submit" value="Submit">
+    </form>
+
+ <p>{{ rlt2|default:"Post提交的内容" }}</p>
+
+
+</body>
+</html>
