@@ -1,6 +1,5 @@
 
 
-
 from cal_risk.get_speed import *
 from cal_risk.load_cases import *
 from cal_risk.get_district import *
@@ -10,7 +9,6 @@ from cal_risk.get_location import *
 from cal_risk.get_population import *
 from cal_risk.get_area import *
 from cal_risk.get_gdp import *
-
 
 # from get_speed import *
 # from load_cases import *

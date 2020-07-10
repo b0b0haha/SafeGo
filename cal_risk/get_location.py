@@ -3,6 +3,7 @@ import json
 import time
 
 from cal_risk.get_gdp import *
+from cal_risk.get_key import *
 def get_location(address, city):
     key = get_key()
     res=''
