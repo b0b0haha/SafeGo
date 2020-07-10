@@ -111,22 +111,20 @@ def predict_online():
 
     global graph
     with graph.as_default():
-        socketserver = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        udp_soc = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         local_address = ('127.0.0.1', 8002)
-        socketserver.bind(local_address)
-        socketserver.listen(5)
-        clientsocket,addr = socketserver.accept()
+        udp_soc.bind(local_address)
         # print(id2label)
         while True:
             #sentence = str(input())
-            recv_data = bytes.decode(clientsocket.recv(1024))
-            sentence = recv_data
+            recv_data = udp_soc.recvfrom(1024)
+            sentence = recv_data[0]
             print(sentence)
             question = sentence
             start = datetime.now()
             if len(sentence) < 2:
                 # print(sentence)
-                clientsocket.send(str.encode('question is too short'))
+                udp_soc.sendto(('question is too short').encode('utf-8'), local_address)
                 continue
             sentence = tokenizer.tokenize(sentence)
             # print('your input is:{}'.format(sentence))
@@ -155,7 +153,7 @@ def predict_online():
             else:
                 answer = "您的问题暂无答案，已收录……"
                 print("您的问题暂无答案，已收录……")
-            clientsocket.send(str.encode(answer))
+            udp_soc.sendto(answer.encode('utf-8'), local_address)
         udp_soc.close()
 
 # 匹配查询
