@@ -114,18 +114,19 @@ def predict_online():
         socketserver = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         local_address = ('127.0.0.1', 8002)
         socketserver.bind(local_address)
+        socketserver.listen(5)
         clientsocket,addr = socketserver.accept()
         # print(id2label)
         while True:
             #sentence = str(input())
-            recv_data = clientsocket.recv(1024)
-            sentence = recv_data[0]
+            recv_data = bytes.decode(clientsocket.recv(1024))
+            sentence = recv_data
             print(sentence)
             question = sentence
             start = datetime.now()
             if len(sentence) < 2:
                 # print(sentence)
-                clientsocket.send(('question is too short').encode('utf-8'))
+                clientsocket.send(str.encode('question is too short'))
                 continue
             sentence = tokenizer.tokenize(sentence)
             # print('your input is:{}'.format(sentence))
@@ -154,7 +155,7 @@ def predict_online():
             else:
                 answer = "您的问题暂无答案，已收录……"
                 print("您的问题暂无答案，已收录……")
-            clientsocket.send(answer.encode('utf-8'))
+            clientsocket.send(str.encode(answer))
         udp_soc.close()
 
 # 匹配查询
