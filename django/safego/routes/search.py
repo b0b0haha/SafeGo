@@ -24,11 +24,11 @@ def search_advise(request):
     if parameter:
         question=parameter.get('question')
         # send question to predict_online
-        tcp_socket.send(question.encode('utf-8'))
+        tcp_socket.send(str.encode(question)
         # deleted AC: answer = handler.chat_main(question)
 
         # get answer from predict_online
-        answer = tcp_socket.recv(1024)
+        answer = bytes.decode(tcp_socket.recv(1024))
         print(answer)
         print(question)
         ctx['answer']=answer
@@ -69,10 +69,10 @@ def search_simple(request):
         risk = cal_risk_from_name(address, city)
         # answer = handler.chat_main(address+'防控建议')
         # send question to predict_online
-        tcp_socket.send((address+'防控意见').encode('utf-8'))
+        tcp_socket.send(str.encode(address+'防控意见'))
 
         # get answer from predict_online
-        answer = tcp_socket.recv(1024)
+        answer = bytes.decode(tcp_socket.recv(1024))
         ctx['answer']=answer
         strrisk = ''
         if (risk == 0):
@@ -102,10 +102,10 @@ def search_detail(request):
         risk = cal_risk_from_name(real_address, city)
         # answer = handler.chat_main(detail_address+'防控建议')
         # send question to predict_online
-        tcp_socket.send((detail_address+'防控意见').encode('utf-8'))
+        tcp_socket.send(str.encode(detail_address+'防控意见'))
 
         # get answer from predict_online
-        answer = tcp_socket.recv(1024)
+        answer = bytes.decode(tcp_socket.recv(1024))
         ctx['answer'] = answer
         strrisk = ''
         if (risk == 0):
