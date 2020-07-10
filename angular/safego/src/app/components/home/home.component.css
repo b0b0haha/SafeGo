@@ -1,0 +1,12 @@
+body {
+    background-color:#EAEAEA;
+    min-height: 100%;
+}
+#footer {
+        text-align: center;
+        height: 40px;
+        background: rgba(0,0,0,0);
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+}

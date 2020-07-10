@@ -1,0 +1,116 @@
+<body>
+    <canvas id='cas' style="left: 0px; border:none; position:absolute;z-index:-1;"></canvas>
+    <div class="jumbotron text-center" style="margin-bottom:0; background-color:rgba(0,0,0,0);">
+        <h1>安心出行</h1>
+    </div>
+    <!-- PAGE CONTENT BEGINS -->
+    <div class="container perfect_scrollbar" id="container">
+        <a href="search_by_map">
+            <img style="float:right"  src="assets/images/search.png" alt="地图寻址">
+        </a>
+        <div class="row">
+            <div class="col-sm-6">
+                <form *ngIf="active" (ngSubmit)="onSubmitAddress(addressForm)" #addressForm="ngForm" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">地名:</span>
+                            <input type="text" class="form-control" id="address" name="address" [(ngModel)]="address.address">
+                        </div>                 
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">城市:</span>
+                            <input type="text" class="form-control" id="city" name="city" [(ngModel)]="address.city">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">查询危险指数</button>   
+                </form>
+                
+                <textarea class="form-control form-control-static" style="margin-top: 25px;" readonly>{{ address.risk }}</textarea>
+            </div>
+            <div class="col-sm-6">
+                <form *ngIf="active" (ngSubmit)="onSubmitQuestion(questionForm)" #questionForm="ngForm" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">问题:</span>
+                            <input type="text" class="form-control" id="question" name="question" [(ngModel)] = "question.body">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">查询防控措施</button>
+                </form>
+
+                <textarea class="form-control form-control-static" rows="5" style="margin-top: 25px;" readonly>{{ question.answer }}</textarea>     
+            
+            </div>
+        </div>
+
+        <div class="pvr_chat_button">
+            <i class="material-icons">chat</i>
+            <span>向我提问吧</span>
+        </div>
+        <div class="pvr_chat_wrapper">
+            <div class="pvr_chat_content">
+                <div class="close_chat">
+                    <i class="material-icons">close</i>
+                </div>
+                <div class="chat_header">
+                    <div class="pvr-user-w with-status status-green">
+                        <div class="pvr-user-avatar-w">
+                            <div class="user-avatar">
+                                <img alt="" src="assets/img/avatar/default-avatar.jpg">
+                            </div>
+                        </div>
+                        <div class="user-name">
+                            <h6 class="user-title">
+                                <a href="http://bootstrapmb.com/" target="_blank">PVR Tech Studio</a>
+                            </h6>
+                            <div class="user-role">
+                                Administrator
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-messages theme_2">
+                    <div class="message">
+                        <div class="message-content">
+                            Lorem Ipsum is simply dummy.
+                        </div>
+                    </div>
+                    <div class="date-break">
+                        Mon 10:20am
+                    </div>
+                    <div class="message">
+                        <div class="message-content">
+                            Lorem Ipsum is simply dummy text of the printing.
+                        </div>
+                    </div>
+                    <div class="message self">
+                        <div class="message-content">
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-controls">
+                    <input class="message-input" id="message-input" placeholder="Type your message here..." type="text">
+                    <div class="chat-extra">
+                        <a href="javascript:void(0)">
+                            <span class="extra-tooltip">Attach Document</span>
+                            <i class="material-icons">attach_file</i>
+                        </a>
+                        <a href="javascript:void(0)">
+                            <span class="extra-tooltip">Insert Photo</span>
+                            <i class="material-icons">add_a_photo</i>
+                        </a>
+                        <a href="javascript:void(0)" class="change_chat_theme">
+                            <span class="extra-tooltip">Change chat theme</span>
+                            <i class="material-icons">refresh</i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer id='footer' class="container-fluid foot-wrap">
+        <p>2020 Google Girl Hackathon 珍珠奶茶大杯全糖队参赛作品</p>    
+    </footer>
+</body>

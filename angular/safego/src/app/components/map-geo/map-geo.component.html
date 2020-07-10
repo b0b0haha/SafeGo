@@ -1,0 +1,90 @@
+<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css" />
+<link rel="stylesheet" href="http://cache.amap.com/lbs/static/main.css?v=1.0" />
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+<body>
+    <div id="container">
+    </div>
+    <div class="button-group" style="*position:absolute;top:90%;left:20%;text-align:center;">
+        <input type="button" class="btn btn-primary" value="查询" (click)="addMarker()"/>
+        <!--<input type="button" class="button" value="更新站点" id="updateMarker()" />-->
+        <input type="button" class="btn btn-primary" value="返回" onclick="javascript:history.back(-1);" />
+    </div>
+
+    <div id="myPageTop" style>
+        <div class="table-row-group">
+            <label>
+                <span style="color: Red">点击地图上相应位置即可添加地址及相应经纬度！</span>
+            </label>
+        </div>
+        <div class="table-row-group">
+            <form class="bs-example bs-example-form" #addressForm=ngForm (ngSubmit)="onSearchSimple(addressForm)">
+                <div>
+                    <label>
+                        查询地址（手动输入查询）：
+                    </label>
+                </div> 
+                <div>
+                    <input type="text" placeholder="目前仅支持北京市的相关地址" id="siteName" name="address" style="width:375px;" [(ngModel)]="address" >
+                </div>
+                <div>
+                    <button type="submit" style="float:right" class="button">查询</button>
+                </div>
+            </form>
+        </div>
+        <div style="display: none">
+            <div id="iCenter">
+            </div>
+            <div id="result">
+            </div>
+            <div id="iControlbox">
+
+                <input type="text" id="key_11" value="126.48" />
+                <input type="text" id="key_12" value="46.83" />
+                <button onclick="javascript:geocoder2();">
+                    逆地址解析
+                </button>
+            </div>
+        </div>
+        <div class="table-row-group">
+            <form class="bs-example bs-example-form" #detailForm=ngForm (ngSubmit)="onSearchDetail(detailForm)">
+                <div>
+                    <label>
+                        经纬度(点击地图获取)：
+                    </label>
+                </div> 
+                <div>
+                    <input type="text" readonly="true" id="lnglat" style="width:375px;" name="lnglat" value = "{{ detail.lnglat }}" [(ngModel)]="detail.lnglat">
+                </div>
+                <div>
+                    <label>
+                        详细地址(点击地图获取地址)：
+                    </label>
+                </div> 
+                <div>
+                    <input type="text" placeholder="详细地址" readonly="true" id="tipinput" name="detail_address" style="width:375px;" value="{{ detail.detail_address }}" [(ngModel)] = "detail.detail_address"/>
+                </div>
+                <div>
+                    <button type="submit" style="float:right" class="button">查询</button>
+                </div>
+            </form>
+        </div>
+        <div class="table-row-group" style="display: '{{ show }}'">
+            <label>
+                风险指数：{{ risk }}
+            </label>
+        </div>
+        <div class="table-row-group" style="display: '{{ show }}'">
+            <label>
+                出行建议：
+            </label>
+        </div>
+        <div class="table-row-group" style="display: '{{ show }}'">
+            <div>
+                <textarea class="form-control form-control-static" rows="5" style="margin-top: 25px;" readonly>{{ answer }}</textarea>
+            </div>
+            <div>
+                <button style="float:right" type="submit" class="button"  (click)="ColseaddMarkerWindow()">关闭窗口</button>
+            </div>
+        </div>
+    </div>
+</body>
