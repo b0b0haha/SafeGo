@@ -34,6 +34,7 @@ ng serve
 9. 访问浏览器
 
 http://localhost:4200/home
+
 10.在/django/safego的目录下，启动服务器
 ```
 python manage.py runserver
