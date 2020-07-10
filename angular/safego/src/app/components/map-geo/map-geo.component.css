@@ -1,0 +1,104 @@
+.info-title {
+    color: white;
+    font-size: 14px;
+    background-color: blue;
+    line-height: 26px;
+    padding: 0px 0 0 6px;
+    font-weight: lighter;
+    letter-spacing: 1px;
+}
+
+.info-content {
+    font: 12px Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial;
+    padding: 4px;
+    color: #666666;
+    line-height: 23px;
+}
+
+    .info-content img {
+        float: left;
+        margin: 3px;
+    }
+
+#tip {
+    background-color: #fff;
+    padding: 0 10px;
+    border: 1px solid silver;
+    box-shadow: 3px 4px 3px 0px silver;
+    position: absolute;
+    font-size: 12px;
+    right: 10px;
+    top: 5px;
+    border-radius: 3px;
+    line-height: 36px;
+}
+
+.table{
+
+    /*此元素会作为块级表格来显示（类似 <table>），表格前后带有换行符。*/
+    display:table;
+    /*border-collapse:collapse;*/
+    border-collapse:separate;
+    border:1px solid #ccc;
+}
+
+.table-caption{
+    /*此元素会作为一个表格标题显示（类似 <caption>）*/
+    display:table-caption;
+    margin:0;
+    font-size:16px;
+}
+
+.table-header-group{
+    /*此元素会作为一个或多个行的分组来显示（类似 <thead>）。*/
+    display:table-header-group;
+    background:#eee;
+    font-weight:bold;
+}
+
+.table-row-group{
+    /*此元素会作为一个或多个行的分组来显示（类似 <tbody>）。*/
+    display:table-row-group;
+}
+
+.table-footer-group{
+    /*此元素会作为一个或多个行的分组来显示（类似 <tfoot>）。*/
+    display:table-footer-group;
+}
+
+ul{
+    list-style:none;
+}
+
+.table-row{
+    /*此元素会作为一个表格行显示（类似 <tr>）。*/
+    display:table-row;
+}
+
+.table-cell{
+    /*此元素会作为一个表格单元格显示（类似 <td> 和 <th>）*/
+    display:table-cell;
+    padding:0 5px;
+    border:1px solid #ccc;
+}
+
+.table-row-group .table-row:hover,
+
+.table-footer-group .table-row:hover{
+    background:#f6f6f6;
+    color:green;
+    font-weight: bold;
+}
+
+
+
+.table-column-group{
+    /*此元素会作为一个或多个列的分组来显示（类似 <colgroup>）。*/
+    display:table-column-group;
+}
+
+.table-column{
+    /*此元素会作为一个单元格列显示（类似 <col>）*/
+    display:table-column;
+    width:100px;
+}
