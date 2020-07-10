@@ -39,3 +39,8 @@ http://localhost:4200/home
 ```
 python manage.py runserver
 ```
+
+附：Bert模型过大，所以传至云盘  
+分享文件：QASystemOnEa...t01.rar等[批量分享]  
+网盘链接：https://pan.cstcloud.cn/s/Bt0zrH3aStY  密码：r7fv   
+下载后将Output、ModelParams替换到 QASystemOnEasyGo_Bert/下
