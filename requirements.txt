@@ -13,7 +13,7 @@ Markdown==3.2.2
 mysqlclient==1.4.6
 neobolt==1.7.17
 neotime==1.7.4
-numpy==1.19.0
+numpy==1.22.0
 panda==0.3.1
 pandas==1.0.5
 prompt-toolkit==2.0.10
